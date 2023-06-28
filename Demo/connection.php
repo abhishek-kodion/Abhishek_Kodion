@@ -1,5 +1,5 @@
 <?php
-$connection = mysqli_connect('localhost','root','');
+$connection = mysqli_connect('localhost', 'root', '');
 
 // if(!$connection)
 // {
@@ -15,16 +15,11 @@ $connection = mysqli_connect('localhost','root','');
 
 // $conn = mysqli_connect('localhost','root','','tatto_blazers');
 
- $create_db = "CREATE DATABASE `tatto_blazers`";
- $run = mysqli_query($connection,$create_db);
+$create_db = "CREATE DATABASE `tatto_blazers`";
+$run = mysqli_query($connection, $create_db);
 
-    if(!$run)
-    {
-        echo "<script> alert('Failed to create database');</script>";
-    }
-    else
-    {
-        echo "<script> alert('Databse created Successfully');</script>";
-
-    }
- ?>
+if (!$run) {
+    echo "<script> alert('Failed to create database');</script>";
+} else {
+    echo "<script> alert('Databse created Successfully');</script>";
+}

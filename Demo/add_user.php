@@ -1,16 +1,35 @@
-<?php
-$conn = mysqli_connect('localhost','root','','tatto_blazers');
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+    <title>Add User</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <?php
+    $conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers');
     // Define variables and set to empty values
     $nameErr = $emailErr = $passwordErr = "";
-    $name = $email = $password = $address =$phone = $names="";
+    $name = $email = $password = $address = $phone = $names = "";
     $conpassErr = "";
-    $phoneErr="";
-    $addErr="";
-    $imageErr="";
-    $emailErrex="";
-    
+    $phoneErr = "";
+    $addErr = "";
+    $imageErr = "";
+    $emailErrex = "";
+
     // Function to sanitize and validate input data
-    function sanitize_input($data) {
+    function sanitize_input($data)
+    {
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
@@ -41,12 +60,12 @@ $conn = mysqli_connect('localhost','root','','tatto_blazers');
             }
         }
 
-            
+
         // Validate password
         if (empty($_POST["password"])) {
             $passwordErr = "Password is required";
         } else {
-            $password = (sanitize_input($_POST["password"])); 
+            $password = (sanitize_input($_POST["password"]));
             // Check if password is strong (at least 8 characters, contains a lowercase letter, an uppercase letter, and a number)
             if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/", $password)) {
                 $passwordErr = "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, and one number";
@@ -54,19 +73,13 @@ $conn = mysqli_connect('localhost','root','','tatto_blazers');
         }
 
         // validate conform password
-        if(empty($_POST['cpassword']))
-        {
-            $passwordErr="password is required";
-        }
-        else
-        {
-            if($_POST['password']==$_POST['cpassword'])
-            {
+        if (empty($_POST['cpassword'])) {
+            $passwordErr = "password is required";
+        } else {
+            if ($_POST['password'] == $_POST['cpassword']) {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
-            }
-            else
-            {
-                $conpassErr ="password did not matched";
+            } else {
+                $conpassErr = "password did not matched";
             }
         }
 
@@ -85,11 +98,11 @@ $conn = mysqli_connect('localhost','root','','tatto_blazers');
         } else {
             $phone = sanitize_input($_POST["phone_number"]);
             // Check if contact is valid
-            if(preg_match('/^[0-9]{10}+$/', $phone)) {
+            if (preg_match('/^[0-9]{10}+$/', $phone)) {
                 // echo "Valid Phone Number";
-                } else {
+            } else {
                 $phoneErr = "Invalid Phone Number";
-                }
+            }
         }
 
 
@@ -100,7 +113,7 @@ $conn = mysqli_connect('localhost','root','','tatto_blazers');
             $names = $_FILES['image']['name'];
             $tempname = $_FILES['image']['tmp_name'];
             $folder = "images/" . $names;
-        
+
             // Check if the file was successfully uploaded
             if (move_uploaded_file($tempname, $folder)) {
                 // File uploaded successfully
@@ -110,71 +123,86 @@ $conn = mysqli_connect('localhost','root','','tatto_blazers');
                 // echo "Failed to upload the image.";
             }
         }
-        
+
 
         // validate email
-        if($_POST['email'])
-        {
-            $email_sql = "SELECT * FROM `blazers_data` WHERE `email`='$email'"; 
-            $run = mysqli_query($conn,$email_sql);
+        if ($_POST['email']) {
+            $email_sql = "SELECT * FROM `blazers_data` WHERE `email`='$email'";
+            $run = mysqli_query($conn, $email_sql);
             $count = mysqli_num_rows($run);
-    
-            if($count>0)
-            {
-            $emailErrex="Email already exists";
+
+            if ($count > 0) {
+                $emailErrex = "Email already exists";
+            } else {
+
+                // If all validations pass, you can perform further actions like storing data in a database
+                if ($nameErr == "" && $emailErr == "" && $passwordErr == "" && $addErr == "" && $conpassErr == "" && $phoneErr == "" && $imageErr == "" && $conpassErr == "") {
+
+                    // $names=$_FILES['image']['name'];
+                    // $tempname=$_FILES['image']['tmp_name'];
+                    // $folder="images/".$names;  
+
+
+                    $sql = "INSERT INTO `blazers_data`(`name`,`email`,`address`,`contact`,`user_image`,`password`) VALUES ('$name','$email','$address','$phone','$names','$hash')";
+                    $run = mysqli_query($conn, $sql);
+                    if (!$run) {
+                        // echo ("<script LANGUAGE='JavaScript'>
+                        // window.alert('Something went wrong please try again');
+                        // window.location.href='add_user.php';
+                        // </script>");
+
+                        echo "<script>";
+                        echo " Swal.fire({
+                            icon: 'error',
+                            title: 'Failed',
+                            text: 'Something went wrong please try again!',
+                            showConfirmButton: false,
+                            timer: 2500
+                            }).then(() => {
+                            window.location.href = 'add_user.php';
+                            })";
+                        echo "</script>";
+                    } else {
+                        // echo ("<script LANGUAGE='JavaScript'>
+                        // window.alert('User Added');
+                        // window.location.href='table.php';
+                        // </script>");
+                        echo "<script>";
+                        echo " Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'User Added',
+                            showConfirmButton: false,
+                            timer: 2500
+                            }).then(() => {
+                            window.location.href = 'table.php';
+                            })";
+                        echo "</script>";
+                    }
+                }
             }
-            else
-            {
-  
-        // If all validations pass, you can perform further actions like storing data in a database
-        if ($nameErr == "" && $emailErr == "" && $passwordErr == "" && $addErr =="" && $conpassErr=="" && $phoneErr =="" && $imageErr=="" && $conpassErr=="") {
-
-            // $names=$_FILES['image']['name'];
-            // $tempname=$_FILES['image']['tmp_name'];
-            // $folder="images/".$names;  
-            
-        
-            $sql = "INSERT INTO `blazers_data`(`name`,`email`,`address`,`contact`,`user_image`,`password`) VALUES ('$name','$email','$address','$phone','$names','$hash')";
-                            $run =mysqli_query($conn,$sql);
-                            if(!$run){
-                            echo ("<script LANGUAGE='JavaScript'>
-                            window.alert('Something went wrong please try again');
-                            window.location.href='add_user.php';
-                            </script>");
-                            }
-                            else
-                            {
-                            echo ("<script LANGUAGE='JavaScript'>
-                            window.alert('User Added');
-                            window.location.href='table.php';
-                            </script>");
-                            }
         }
-
-        }
-            
-        }  
     }
     ?>
 
-<!doctype html>
+    <!-- <!doctype html>
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <title>Add User</title>
     <style>
         .error { color: red; }
     </style>
-</head>
+</head> -->
 
-<body>
+    <!-- <body> -->
     <div class="container my-5">
         <div class="row">
             <div class="col-6" id="form">
@@ -183,72 +211,58 @@ $conn = mysqli_connect('localhost','root','','tatto_blazers');
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" id="name" name="name" required value="<?php echo $name ?>">
-        <span class="error"><?php echo $nameErr; ?></span>
+                        <span class="error"><?php echo $nameErr; ?></span>
 
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" name="email" required value="<?php echo $email ?>">
-        <span class="error"><?php echo $emailErrex; ?></span>
-        <span class="error"><?php echo $emailErr; ?></span>
+                        <span class="error"><?php echo $emailErrex; ?></span>
+                        <span class="error"><?php echo $emailErr; ?></span>
                     </div>
                     <div class="form-group">
                         <label for="Address">Address</label>
                         <input type="text" class="form-control" id="address" name="address" required value="<?php echo $address ?>">
-        <span class="error"><?php echo $addErr; ?></span>
+                        <span class="error"><?php echo $addErr; ?></span>
                     </div>
                     <div class="form-group">
                         <label for="phone_number">Phone Number</label>
-                        <input type="text" class="form-control" id="phone_number" name="phone_number" required  maxlength="10" minlength="10" value="<?php echo $phone ?>">
-        <span class="error"><?php echo $phoneErr; ?></span>
+                        <input type="text" class="form-control" id="phone_number" name="phone_number" required maxlength="10" minlength="10" value="<?php echo $phone ?>">
+                        <span class="error"><?php echo $phoneErr; ?></span>
 
                     </div>
                     <div class="form-group">
                         <label for="image">User Image</label>
-                        <input type="file" class="form-control" id="image" required name="image" >
-        <span class="error"><?php echo $imageErr; ?></span>
+                        <input type="file" class="form-control" id="image" required name="image">
+                        <span class="error"><?php echo $imageErr; ?></span>
                     </div>
 
-                    <!-- <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password"  maxlength="10" >
-                 
-        <span class="error"><?php echo $passwordErr; ?></span>
-
-                    </div>   -->
 
                     <label for="exampleInputEmail1">Password</label>
-            <div class="input-group">
-            <input type="password" class="form-control" name="password" id="myInput1" required  maxlength="10" minlength="8">
-            <div class="input-group-append">
-            <button class="btn btn-warning text-white" type="button" onclick="myFunction1()"><i class="fa fa-eye" aria-hidden="true"></i></button>
-            </div>
-            </div>
-                <div class="row">
-                <span class="error"><?php echo $passwordErr; ?></span> 
-                </div>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="password" id="myInput1" required maxlength="32" minlength="8">
+                        <div class="input-group-append">
+                            <button class="btn btn-warning text-white" type="button" onclick="myFunction1()"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="error"><?php echo $passwordErr; ?></span>
+                    </div>
 
 
 
-                <label for="exampleInputEmail1">Confirm Password</label>
-            <div class="input-group">
-            <input type="password" class="form-control" name="cpassword" id="myInput2"  required maxlength="32" minlength="8">
-            <div class="input-group-append">
-            <button class="btn btn-warning text-white" type="button" onclick="myFunction2()"><i class="fa fa-eye" aria-hidden="true"></i></button>
-            </div>
-            </div>
-                <div class="row">
-                <span class="error"><?php echo $conpassErr; ?></span> 
-                </div>
+                    <label for="exampleInputEmail1">Confirm Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="cpassword" id="myInput2" required maxlength="32" minlength="8">
+                        <div class="input-group-append">
+                            <button class="btn btn-warning text-white" type="button" onclick="myFunction2()"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="error"><?php echo $conpassErr; ?></span>
+                    </div>
 
 
-
-                    <!-- <div class="form-group">
-                        <label for="cpassword">Confirm Password</label>
-                        <input type="password" class="form-control" id="cpassword" name="cpassword"  maxlength="10">
-        <span class="error"><?php echo $conpassErr; ?></span>
-                    </div> -->
-                    
                     <button style="margin-left:196px;" type="submit" class="btn btn-warning text-white btn-lg btn-md mt-3" name="register">Add User</button>
                     <!-- <p class="text-center my-3">Already Registered <a href="login.php">Login Here</a></p> -->
                 </form>
@@ -282,27 +296,27 @@ $conn = mysqli_connect('localhost','root','','tatto_blazers');
         </footer>
     </div>
 </body>
+
 </html>
 
 <script>
-function myFunction1() {
-  var x = document.getElementById("myInput1");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}
+    function myFunction1() {
+        var x = document.getElementById("myInput1");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
 </script>
 
 <script>
-function myFunction2() {
-  var x = document.getElementById("myInput2");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}
+    function myFunction2() {
+        var x = document.getElementById("myInput2");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
 </script>
-

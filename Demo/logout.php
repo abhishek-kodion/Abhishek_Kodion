@@ -9,6 +9,3 @@ session_destroy();
 // echo "<script> widow.location('login.php');</script>"; 
 header('location:login.php');
 // }
-?>
-
-

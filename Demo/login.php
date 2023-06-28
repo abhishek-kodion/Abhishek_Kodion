@@ -1,49 +1,84 @@
-<?php
-$conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers'); //connection to the database
-$passwordErr = "";
-$emailErr = "";
-
-if (isset($_POST['submit'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $result = mysqli_query($conn, "SELECT * FROM `blazers_data` WHERE `email`='$email'");
-    $row = mysqli_fetch_assoc($result);
-
-    if (mysqli_num_rows($result) > 0) {
-        // Verify the password using password_verify function
-        if (password_verify($password, $row['password'])) {
-            session_start();
-            $_SESSION["login"] = true;
-            $_SESSION["username"] = $_POST['email'];
-            $_SESSION["id"] = $row['id'];
-            header("location: homepage.php");
-        } else {
-            $passwordErr = " password is not correct. Please try again.";
-        }
-    } else {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = 'Invalid email format.';
-        } else {
-            echo ("<script LANGUAGE='JavaScript'>
-            window.alert('Invalid credentials. Please try again.');
-            window.location.href='login-test.php';
-            </script>");
-            exit();
-        }
-    }
-}
-?>
-
 <!doctype html>
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+    <style>
+        .acc {
+            padding-left: 168px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+    <title>Login</title>
+</head>
+
+<body>
+
+    <?php
+    $conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers'); //connection to the database
+    $passwordErr = "";
+    $emailErr = "";
+
+    if (isset($_POST['submit'])) {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $result = mysqli_query($conn, "SELECT * FROM `blazers_data` WHERE `email`='$email' && `status`='0'");
+        $row = mysqli_fetch_assoc($result);
+
+        if (mysqli_num_rows($result) > 0) {
+            // Verify the password using password_verify function
+            if (password_verify($password, $row['password'])) {
+                session_start();
+                $_SESSION["login"] = true;
+                $_SESSION["username"] = $_POST['email'];
+                $_SESSION["id"] = $row['id'];
+                header("location: homepage.php");
+            } else {
+                $passwordErr = " password is not correct. Please try again.";
+            }
+        } else {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $emailErr = 'Invalid email format.';
+            } else {
+                // echo ("<script LANGUAGE='JavaScript'>
+                // window.alert('Invalid credentials. Please try again.');
+                // window.location.href='login.php';
+                // </script>");
+                echo "<script>";
+                echo " Swal.fire({
+                icon: 'error',
+                title: 'Failed to login',
+                text: 'Invalid credentials. Please try again!',
+                showConfirmButton: false,
+                timer: 2500
+              }).then(() => {
+                window.location.href = 'login.php';
+              })";
+                echo "</script>";
+                exit();
+            }
+        }
+    }
+    ?>
+
+    <!-- <!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <style>
         .acc {
@@ -52,9 +87,9 @@ if (isset($_POST['submit'])) {
         .error { color: red; }
     </style>
     <title>Login-test</title>
-</head>
+</head> -->
 
-<body>
+
     <div class="container my-5">
         <div class="row">
             <div class="col-6">
@@ -75,15 +110,15 @@ if (isset($_POST['submit'])) {
                     </div> -->
 
                     <label for="exampleInputEmail1"> Password</label>
-            <div class="input-group">
-            <input type="password" class="form-control" name="password" id="myInput"  required maxlength="10">
-            <div class="input-group-append">
-            <button class="btn btn-secondary" type="button" onclick="myFunction()"><i class="fa fa-eye" aria-hidden="true"></i></button>
-            </div>
-            </div>
-                <div class="row">
-                <span class="error"><?php echo $passwordErr; ?></span>
-                </div>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="password" id="myInput" required maxlength="32" minlength="8">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" onclick="myFunction()"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="error"><?php echo $passwordErr; ?></span>
+                    </div>
 
                     <button type="submit" class="btn btn-primary  btn-lg btn-block mt-3" name="submit">Login</button>
                 </form>
@@ -96,6 +131,7 @@ if (isset($_POST['submit'])) {
 
     <!-- Optional JavaScript; choose one of the two! -->
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
@@ -110,18 +146,15 @@ if (isset($_POST['submit'])) {
                 © 2023 Tattoo BlazeRs.com
             </div>
         </footer>
-    </div
-
-
-      </div>
+    </div </div>
 
     <script>
-function myFunction() {
-  var x = document.getElementById("myInput");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}
-</script>
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>

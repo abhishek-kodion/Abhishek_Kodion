@@ -24,11 +24,10 @@
   session_start();
   if (!isset($_SESSION['id'])) {
     header('location:login.php');
-  } else {
-    $user =  $_SESSION['username'];
-    $id = $_SESSION['id'];
   }
 
+  $id = $_GET['id'];
+  // echo $id;
   $sql = "SELECT * FROM `blazers_data` WHERE `id` = '$id'";
   $query = mysqli_query($conn, $sql);
   $rows = mysqli_num_rows($query);
@@ -103,6 +102,7 @@
       $queryUp = mysqli_query($conn, $sql);
       if (!$queryUp) {
 
+
         // echo ("<script LANGUAGE='JavaScript'>
         // window.alert('password updation failed');
         // window.location.href='update-password.php';
@@ -110,46 +110,46 @@
 
         echo "<script>";
         echo " Swal.fire({
-                    icon: 'error',
-                    title: 'Failed',
-                    text: password updation failed!',
-                    showConfirmButton: false,
-                    timer: 2500
+                  icon: 'error',
+                  title: 'faild',
+                  text: 'password updation failed Try again!',
+                  showConfirmButton: false,
+                  timer: 2500
                   }).then(() => {
-                    window.location.href = ''update-password.php'';
+                  window.location.href = 'update-password.php';
                   })";
         echo "</script>";
       } else {
 
         // echo ("<script LANGUAGE='JavaScript'>
         // window.alert('password updated successfully');
-        // window.location.href='login.php';
+        // window.location.href='table.php';
         // </script>");
 
         echo "<script>";
         echo " Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Password Updated successfully!',
-                    showConfirmButton: false,
-                    timer: 2500
-                  }).then(() => {
-                    window.location.href = 'login.php';
-                  })";
+                icon: 'success',
+                title: 'Done',
+                text: 'password updated successfully',
+                showConfirmButton: false,
+                timer: 2500
+                }).then(() => {
+                window.location.href = 'table.php';
+                })";
         echo "</script>";
       }
     }
   }
   ?>
-  <!-- 
-<!doctype html>
+
+  <!-- <!doctype html>
 <html lang="en">
   <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <style>
     .error{ color:red;}
@@ -161,7 +161,7 @@
   <div class="container">
     <div class="row my-3">
       <div class="col-6" style="margin-top: 165px;">
-        <h3 class="text-center">Change Your Password</h3>
+        <h3 class="text-center">Change User Password</h3>
 
         <form action="" method="POST">
           <div class="form-group">
@@ -170,7 +170,7 @@
             <div class="input-group">
               <input type="password" class="form-control" id="myInput" required name="current_password" aria-label="Example select with button addon" placeholder="old password here" maxlength="32" minlength="8">
               <div class="input-group-append">
-                <button class="btn btn-secondary" type="button" onclick="myFunction()"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                <button class="btn btn-primary" type="button" onclick="myFunction()"><i class="fa fa-eye" aria-hidden="true"></i></button>
               </div>
             </div>
             <div class="row">
@@ -184,7 +184,7 @@
             <div class="input-group">
               <input type="password" class="form-control" name="new_password" required id="myInput1" aria-label="Example select with button addon" placeholder="New password here" maxlength="32" minlength="8">
               <div class="input-group-append">
-                <button class="btn btn-secondary" type="button" onclick="myFunction1()"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                <button class="btn btn-primary" type="button" onclick="myFunction1()"><i class="fa fa-eye" aria-hidden="true"></i></button>
               </div>
             </div>
             <div class="row">
@@ -195,14 +195,14 @@
             <div class="input-group">
               <input type="password" class="form-control" name="confirm_password" required id="myInput2" aria-label="Example select with button addon" placeholder=" Confirm New password here" maxlength="32" minlength="8">
               <div class="input-group-append">
-                <button class="btn btn-secondary" type="button" onclick="myFunction2()"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                <button class="btn btn-primary" type="button" onclick="myFunction2()"><i class="fa fa-eye" aria-hidden="true"></i></button>
               </div>
             </div>
             <div class="row">
               <span class="error"><?php echo $cnewpasswordErr; ?></span>
             </div>
 
-            <button class="btn btn-outline-danger btn-block mt-3" type="submit" name="submit"> Change Password </button>
+            <button class="btn btn-outline-primary btn-block mt-3" type="submit" name="submit"> Change Password </button>
           </div>
         </form>
 
@@ -210,7 +210,7 @@
       </div>
 
       <div class="col-6">
-        <img src="https://images.unsplash.com/photo-1605858286629-4268180c482b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGtleSUyMGFuZCUyMGxvY2t8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="">
+        <img src="https://images.unsplash.com/photo-1615842978998-54a9182892b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGxvY2t8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="">
       </div>
     </div>
   </div>
