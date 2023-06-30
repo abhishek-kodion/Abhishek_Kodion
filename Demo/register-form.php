@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
 
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     <title>Register-Tatto BlazeRs</title>
     <style>
         .error {
@@ -127,17 +132,24 @@
             }
         }
 
-
+        $showModal="";
         // validate email
         if ($_POST['email']) {
             $email_sql = "SELECT * FROM `blazers_data` WHERE `email`='$email'";
             $run = mysqli_query($conn, $email_sql);
             $count = mysqli_num_rows($run);
 
-            if ($count > 0) {
-                $emailErrex = "Email already exists";
-            } else {
+            if (`status` !=0 &&  $count>0) {
+                // $emailErrex = "Email already exists";
+                echo "i am modal";
+                $showModal = true;
+            } elseif( $count>0 ) {
 
+                $emailErrex = "Email already exists";
+                        }
+
+                     else{
+            
                 // If all validations pass, you can perform further actions like storing data in a database
                 if ($nameErr == "" && $emailErr == "" && $passwordErr == "" && $addErr == "" && $conpassErr == "" && $phoneErr == "" && $imageErr == "" && $conpassErr == "") {
 
@@ -149,10 +161,7 @@
                     $sql = "INSERT INTO `blazers_data`(`name`,`email`,`address`,`contact`,`user_image`,`password`) VALUES ('$name','$email','$address','$phone','$names','$hash')";
                     $run = mysqli_query($conn, $sql);
                     if (!$run) {
-                        // echo ("<script LANGUAGE='JavaScript'>
-                        // window.alert('Something went wrong please try again');
-                        // window.location.href='register-form.html';
-                        // </script>");
+                       
                         echo "<script>";
                         echo " Swal.fire({
                             icon: 'error',
@@ -165,10 +174,7 @@
                             })";
                         echo "</script>";
                     } else {
-                        // echo ("<script LANGUAGE='JavaScript'>
-                        // window.alert('Registraion Successfull');
-                        // window.location.href='login.php';
-                        // </script>");
+                     
                         echo "<script>";
                         echo " Swal.fire({
                             icon: 'success',
@@ -187,25 +193,6 @@
     }
     ?>
 
-    <!-- <!doctype html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
-
-    <title>Register-Tatto BlazeRs</title>
-    <style>
-        .error { color: red; }
-    </style>
-</head>
-
-<body> -->
     <div class="container my-5">
         <div class="row">
             <div class="col-6">
@@ -311,9 +298,40 @@
             <!-- Copyright -->
         </footer>
     </div>
+
+    <?php if ($showModal): ?>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>We have already your account Do you want to reactivate account?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php endif; ?>
+      
 </body>
 
 </html>
+
+    <script>
+    $(document).ready(function() {
+    // Show the Bootstrap modal
+    $('#myModal').modal('show');
+    });
+    </script>
 
 <script>
     function myFunction1() {

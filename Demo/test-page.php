@@ -1,79 +1,53 @@
 <?php
-// include 'includes/header.php';
-if (isset($_POST['submit'])) {
-
-  if (isset($_FILES['image'])) {
-
-    $file_name = $_FILES['image']['name'];
-    $file_tmp = $_FILES['image']['tmp_name'];
-    $file_type = $_FILES['image']['type'];
-
-    if (empty($errors) == true) {
-      move_uploaded_file($file_tmp, "images/" . $file_name);
-      echo "Success";
-    } else {
-      echo "failed";
-    }
-  }
+// PHP code
+$showModal="";
+$a=1;
+if ($a=1) {
+   echo "i am here";
+} else {
+    // Code for the else condition
+    // ...
+    $showModal = true;
 }
-
 ?>
-<form action="" method="post" enctype="multipart/form-data">
 
-  <button id="cameraButton" class="camera-button">
-    <i class="bi bi-camera-fill"></i> button
-  </button>
-
-  <input type="file" id="fileUpload" name="image" style="display:none">
-
-  <!-- <span class="error"><?php echo $imageErr; ?></span> -->
-
-  <br><br>
-  <button type="submit" name="submit">Submit data</button>
-</form>
-
-
-
-<script>
-  // Get the button and file upload elements
-  const cameraButton = document.getElementById('cameraButton');
-  const fileUpload = document.getElementById('fileUpload');
-
-  // Add event listener to the button
-  cameraButton.addEventListener('click', function() {
-    // Trigger click event on file upload input
-    fileUpload.click();
-  });
-</script>
-
-
-
-
-
-<?php
-//  if(isset($_FILES['image'])){
-
-//     $file_name = $_FILES['image']['name'];
-//     $file_size =$_FILES['image']['size'];
-//     $file_tmp =$_FILES['image']['tmp_name'];
-//     $file_type=$_FILES['image']['type'];
-
-//     if(empty($errors)==true){
-//        move_uploaded_file($file_tmp,"images/".$file_name);
-//        echo "Success";
-//     }else{
-//        print_r($errors);
-//     }
-//  }
-?>
+<!DOCTYPE html>
 <html>
-<!-- <body>
-      
-      <form action="" method="POST" enctype="multipart/form-data">
-         <input type="file" name="image" />
-         <input type="submit"/>
-      </form>
-      
-   </body> -->
+<head>
+    <title>Show Bootstrap Modal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <?php if ($showModal): ?>
+        <!-- Bootstrap Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to continue?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <script>
+            $(document).ready(function() {
+                // Show the Bootstrap modal
+                $('#myModal').modal('show');
+            });
+        </script>
+    <?php endif; ?>
+</body>
 </html>

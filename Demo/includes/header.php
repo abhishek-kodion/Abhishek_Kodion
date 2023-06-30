@@ -27,6 +27,8 @@ $query = mysqli_query($conn, $sql);
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
 
   <title>Web</title>
@@ -72,6 +74,9 @@ $query = mysqli_query($conn, $sql);
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="user-edit-copy.php?id=<?php echo $data['id'];?>">blazers profile Test</a>
+          </li> -->
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="extaUser.php?id=<?php echo $data['id'];?>">blazers profile demo</a>
           </li> -->
         </ul>
         <!-- user data show -->
