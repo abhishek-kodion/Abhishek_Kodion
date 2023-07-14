@@ -1,17 +1,19 @@
 <?php
 include 'includes/header.php';
 
-$user =  $_SESSION['username'];
-// echo $user;
-$id = $_SESSION['id'];
+if (!isset($_SESSION['id'])) {
+    header('location:login.php');
+} else {
+    $user = $_SESSION['username'];
+    $id = $_SESSION['id'];
+}
 
 $sql = "SELECT * FROM `blazers_data` WHERE `id` = '$id'";
 $query = mysqli_query($conn, $sql);
 
 // validations
-$nameErr = $addressErr = $contactErr = $emailErr = $imageErr = "";
-$name = $address = $contact = $email =  $image = "";
-
+$nameErr = $addressErr = $contactErr = $emailErr = $imageErr = $emailErrex = "";
+$name = $address = $contact = $email = $image = "";
 
 // to sanitize user input
 function sanitizeInput($data)
@@ -22,8 +24,7 @@ function sanitizeInput($data)
     return $data;
 }
 
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-if (isset($_POST["submit"])) {
+if (isset($_POST["update"])) {
     // Validate name
 
     if (empty($_POST["name"])) {
@@ -65,60 +66,54 @@ if (isset($_POST["submit"])) {
         }
     }
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($nameErr) && empty($addressErr) && empty($contactErr) && empty($emailErr)  && empty($imageErr)) {
-
-        
-        $image = $_FILES['image'];
-        if (!empty($_FILES["image"]["name"])) {
-            $filename = $_FILES["image"]["name"];
-            $tempname = $_FILES["image"]["tmp_name"];
-            $folder = "images/" . $filename;
-            move_uploaded_file($tempname, $folder);
-
-            $update_data = "UPDATE `blazers_data` SET `name`='$name',`email`='$email',`address`='$address',`contact`='$phone_number',`user_image`='$filename' WHERE `id`='$id'";
-            $run = mysqli_query($conn, $update_data);
-            if (!$run) {
-                echo "<script> alert('Profile image update failed)</script>";
-            } else {
-                // echo ("<script LANGUAGE='JavaScript'>
-                // window.alert('image Succesfully Updated');
-                // window.location.href='user_data.php';
-                // </script>");
-
-                echo "<script>";
-                echo " Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'image updated successfully!',
-            showConfirmButton: false,
-            timer: 3000
-          }).then(() => {
-            window.location.href = 'user_data.php';
-          })";
-
-                echo "</script>";
-            }
+    if (empty($nameErr) && empty($addressErr) && empty($contactErr) && empty($emailErr) && empty($imageErr)) {
+        $check_email = "SELECT * FROM `blazers_data` WHERE `email`='$email' AND `id` != '$id'";
+        $result = mysqli_query($conn, $check_email);
+        if (mysqli_num_rows($result) > 0) {
+            $emailErrex = "Email already exists";
         } else {
-            $update_data = "UPDATE `blazers_data` SET `name`='$name',`email`='$email',`address`='$address',`contact`='$phone_number' WHERE `id`='$id'";
-            $run = mysqli_query($conn, $update_data);
-            if (!$run) {
-                echo "<script> alert('Profile update failed)</script>";
+            $image = $_FILES['image'];
+            if (!empty($_FILES["image"]["name"])) {
+                $filename = $_FILES["image"]["name"];
+                $tempname = $_FILES["image"]["tmp_name"];
+                $folder = "images/" . $filename;
+                move_uploaded_file($tempname, $folder);
+
+                $update_data = "UPDATE `blazers_data` SET `name`='$name',`email`='$email',`address`='$address',`contact`='$phone_number',`user_image`='$filename' WHERE `id`='$id'";
+                $run = mysqli_query($conn, $update_data);
+                if (!$run) {
+                    echo "<script> alert('Profile image update failed')</script>";
+                } else {
+                    echo "<script>";
+                    echo "Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Image Successfully Updated!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then(() => {
+                        window.location.href = 'user_data.php';
+                    })";
+                    echo "</script>";
+                }
             } else {
-                // echo ("<script LANGUAGE='JavaScript'>
-                // window.alert('Succesfully Updated');
-                // window.location.href='user_data.php';
-                // </script>");
-                echo "<script>";
-                echo " Swal.fire({
-            icon: 'success',
-            title: 'Done',
-            text: 'Data updated successfully!',
-            showConfirmButton: false,
-            timer: 3000
-          }).then(() => {
-            window.location.href = 'user_data.php';
-          })";
-                echo "</script>";
+                $update_data1 = "UPDATE `blazers_data` SET `name`='$name',`email`='$email',`address`='$address',`contact`='$phone_number' WHERE `id`='$id'";
+                $run = mysqli_query($conn, $update_data1);
+                if (!$run) {
+                    echo "<script> alert('Profile update failed')</script>";
+                } else {
+                    echo "<script>";
+                    echo "Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'User Data Successfully Updated!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then(() => {
+                        window.location.href = 'user_data.php';
+                    })";
+                    echo "</script>";
+                }
             }
         }
     }
@@ -142,6 +137,7 @@ if (isset($_POST["submit"])) {
                         <div class="col">
                             <input type="Email" class="form-control" name="email" required value="<?php echo $data['email']; ?>" pattern=".+@gmail\.com" size="30">
                             <span class="error"><?php echo $emailErr; ?></span>
+                            <span class="error"><?php echo $emailErrex?></span>
                         </div>
 
                     </div>
@@ -167,12 +163,12 @@ if (isset($_POST["submit"])) {
 
                     <div class="row  my-4">
                         <div class="col-6">
-                            <button type="submit" name="submit" class="btn btn-md btn-primary center btn-block" id="updatebtn"> Update profile</button>
+                            <button type="submit" name="update" class="btn btn-md btn-primary center btn-block" id="updatebtn"> Update your profile</button>
 
                         </div>
 
                         <div class="col-6">
-                            <a href="update-password.php" class="btn btn-success btn-block text-white">Update Password</a>
+                            <a href="update-password.php" class="btn btn-info btn-block text-white">Update your Password</a>
 
                         </div>
                     </div>

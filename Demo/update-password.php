@@ -103,11 +103,6 @@
       $queryUp = mysqli_query($conn, $sql);
       if (!$queryUp) {
 
-        // echo ("<script LANGUAGE='JavaScript'>
-        // window.alert('password updation failed');
-        // window.location.href='update-password.php';
-        // </script>");
-
         echo "<script>";
         echo " Swal.fire({
                     icon: 'error',
@@ -120,11 +115,6 @@
                   })";
         echo "</script>";
       } else {
-
-        // echo ("<script LANGUAGE='JavaScript'>
-        // window.alert('password updated successfully');
-        // window.location.href='login.php';
-        // </script>");
 
         echo "<script>";
         echo " Swal.fire({
@@ -141,22 +131,6 @@
     }
   }
   ?>
-  <!-- 
-<!doctype html>
-<html lang="en">
-  <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <style>
-    .error{ color:red;}
-</style>
-    <title>Change password</title>
-  </head>
-  <body> -->
 
   <div class="container">
     <div class="row my-3">
@@ -201,6 +175,8 @@
             <div class="row">
               <span class="error"><?php echo $cnewpasswordErr; ?></span>
             </div>
+
+            <input type="hidden" name="loginuser" id="" value="<?php echo $_SESSION['username']?>">
 
             <button class="btn btn-outline-danger btn-block mt-3" type="submit" name="submit"> Change Password </button>
           </div>

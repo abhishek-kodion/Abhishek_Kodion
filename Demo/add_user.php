@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
@@ -14,11 +12,20 @@
         }
     </style>
 </head>
-
 <body>
+    
     <?php
     $conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers');
-    // Define variables and set to empty values
+    session_start();
+  if (!isset($_SESSION['id'])) {
+    header('location:login.php');
+  } else {
+    $user =  $_SESSION['username'];
+    // echo $user;
+    $id = $_SESSION['id'];
+    // echo $id;
+  }
+    // Define variables and set to empty values'
     $nameErr = $emailErr = $passwordErr = "";
     $name = $email = $password = $address = $phone = $names = "";
     $conpassErr = "";
@@ -26,6 +33,8 @@
     $addErr = "";
     $imageErr = "";
     $emailErrex = "";
+
+ 
 
     // Function to sanitize and validate input data
     function sanitize_input($data)
@@ -124,16 +133,10 @@
             }
         }
 
+        
 
         // validate email
-        if ($_POST['email']) {
-            $email_sql = "SELECT * FROM `blazers_data` WHERE `email`='$email'";
-            $run = mysqli_query($conn, $email_sql);
-            $count = mysqli_num_rows($run);
-
-            if ($count > 0) {
-                $emailErrex = "Email already exists";
-            } else {
+      
 
                 // If all validations pass, you can perform further actions like storing data in a database
                 if ($nameErr == "" && $emailErr == "" && $passwordErr == "" && $addErr == "" && $conpassErr == "" && $phoneErr == "" && $imageErr == "" && $conpassErr == "") {
@@ -141,15 +144,20 @@
                     // $names=$_FILES['image']['name'];
                     // $tempname=$_FILES['image']['tmp_name'];
                     // $folder="images/".$names;  
+ 
+                    if ($_POST['email']) {
+                        $email_sql = "SELECT * FROM `blazers_data` WHERE `email`='$email'";
+                        $run = mysqli_query($conn, $email_sql);
+                        $count = mysqli_num_rows($run);
+            
+                        if ($count > 0) {
+                            $emailErrex = "Email already exists";
+                        } else {
 
-
-                    $sql = "INSERT INTO `blazers_data`(`name`,`email`,`address`,`contact`,`user_image`,`password`) VALUES ('$name','$email','$address','$phone','$names','$hash')";
+                    $sql = "INSERT INTO `blazers_data`(`name`,`email`,`address`,`contact`,`user_image`,`password`,`user_added_by`) VALUES ('$name','$email','$address','$phone','$names','$hash','$user')";
                     $run = mysqli_query($conn, $sql);
                     if (!$run) {
-                        // echo ("<script LANGUAGE='JavaScript'>
-                        // window.alert('Something went wrong please try again');
-                        // window.location.href='add_user.php';
-                        // </script>");
+                      
 
                         echo "<script>";
                         echo " Swal.fire({
@@ -163,10 +171,7 @@
                             })";
                         echo "</script>";
                     } else {
-                        // echo ("<script LANGUAGE='JavaScript'>
-                        // window.alert('User Added');
-                        // window.location.href='table.php';
-                        // </script>");
+                  
                         echo "<script>";
                         echo " Swal.fire({
                             icon: 'success',
@@ -185,28 +190,13 @@
     }
     ?>
 
-    <!-- <!doctype html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
-    <title>Add User</title>
-    <style>
-        .error { color: red; }
-    </style>
-</head> -->
-
-    <!-- <body> -->
     <div class="container my-5">
         <div class="row">
+          <a href="table.php">  <button class="btn btn-warning text-white "> <i class="fa-solid fa-arrow-left"></i> Back </button></a>
+        </div>
+        <div class="row">
             <div class="col-6" id="form">
-                <h3 class="text-center" style="font-family:Times New Roman;">Add New User</h3>
+                <h3 class="text-center" style="font-family:Times New Roman;">Add a Team Member</h3>
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -263,7 +253,7 @@
                     </div>
 
 
-                    <button style="margin-left:196px;" type="submit" class="btn btn-warning text-white btn-lg btn-md mt-3" name="register">Add User</button>
+                    <button style="margin-left:196px;" type="submit" class="btn btn-warning text-white btn-lg btn-md mt-3" name="register">Add to Team</button>
                     <!-- <p class="text-center my-3">Already Registered <a href="login.php">Login Here</a></p> -->
                 </form>
             </div>

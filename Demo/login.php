@@ -70,26 +70,6 @@
     }
     ?>
 
-    <!-- <!doctype html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <style>
-        .acc {
-            padding-left: 168px;
-        }
-        .error { color: red; }
-    </style>
-    <title>Login-test</title>
-</head> -->
-
-
     <div class="container my-5">
         <div class="row">
             <div class="col-6">
@@ -123,7 +103,7 @@
                     <button type="submit" class="btn btn-primary  btn-lg btn-block mt-3" name="submit">Login</button>
                 </form>
                 <div class="row my-3">
-                    <h6 class="acc">Don't have an account? <a href="register-form.php">Register Here</a></h6>
+                    <h6 class="acc">Don't have an account? <a href="index.php">Register Here</a></h6>
                 </div>
             </div>
         </div>

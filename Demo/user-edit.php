@@ -84,11 +84,6 @@ function sanitizeInput($data) {
     }
     else
     {
-        // echo ("<script LANGUAGE='JavaScript'>
-        // window.alert('image Succesfully Updated');
-        // window.location.href='table.php';
-        // </script>");
-
         echo "<script>";
         echo " Swal.fire({
         icon: 'success',
@@ -110,11 +105,6 @@ if(!$run)
 }
 else
 {
-    // echo ("<script LANGUAGE='JavaScript'>
-    // window.alert('User Data Succesfully Updated');
-    // window.location.href='table.php';
-    // </script>");
-
     echo "<script>";
     echo " Swal.fire({
     icon: 'success',
@@ -159,10 +149,7 @@ else
     }
     else
     {
-        // echo ("<script LANGUAGE='JavaScript'>
-        // window.alert('image Succesfully Updated');
-        // window.location.href='table.php';
-        // </script>");
+       
 
         echo "<script>";
         echo " Swal.fire({
@@ -185,10 +172,7 @@ if(!$run)
 }
 else
 {
-    // echo ("<script LANGUAGE='JavaScript'>
-    // window.alert('User Data Succesfully Updated');
-    // window.location.href='table.php';
-    // </script>");
+  
 
     echo "<script>";
     echo " Swal.fire({
@@ -218,6 +202,11 @@ else
 }  
 ?>
   <body>
+    <div class="container mt-3">
+    <a href="table.php">  <button class="btn btn-primary text-white "> <i class="fa-solid fa-arrow-left"></i> Back </button></a>
+    </div>
+        </div>
+  <div class="row">
   <div class="container my-5 shadow bg-white rounded">
     <div class="row my-3">
     <?php while ($data = mysqli_fetch_assoc($query_run)) { 
@@ -231,8 +220,9 @@ else
       </div>
       
       <div class=" container mt-3 text-center" >
+        
         <div class="col-12 text-center" >
-          <h3 class="text-center"><?php echo $data['name']; ?></h3> 
+          <h3 class="text-center"><?php echo $data['name']; ?></h3>
         </div>
       </div>
     </div>

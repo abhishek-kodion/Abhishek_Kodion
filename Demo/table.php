@@ -1,12 +1,26 @@
+
 <?php 
 include 'includes/header.php';
 
-$sqlAll = "SELECT * FROM `blazers_data` WHERE `status` = '0' && `id` !='$id'";
+if (!isset($_SESSION['id'])) {
+  header('location:login.php');
+} else {
+  $user =  $_SESSION['username'];
+
+  $id = $_SESSION['id'];
+
+}
+
+$sqlAll = "SELECT * FROM `blazers_data` WHERE `status` = '0' && `id` !='$id' && `user_added_by` = '$user'";
 $queryAll = mysqli_query($conn, $sqlAll);
 $rows1 = mysqli_num_rows($queryAll);
 ?>
 
+
 <body>
+  <div class="container">
+  <a href="add_user.php"><button class="btn  btn-warning btn-block text-white mt-2">Create Team</button></a>
+  </div>
     <div class="container-fluid my-5">
 
         <table id="example" class="table table-striped table-bordered center " style="width:100%">
@@ -18,7 +32,7 @@ $rows1 = mysqli_num_rows($queryAll);
                     <th>Email</th>
                     <th>Address</th>
                     <th>Contact</th>
-                    <th>Action</th>
+                    <th>Action</th> 
                 </tr>
             </thead>
             <tbody>
@@ -43,7 +57,6 @@ $rows1 = mysqli_num_rows($queryAll);
 
     <?php 
 include 'includes/footer.php';
-
 ?>
 
 
