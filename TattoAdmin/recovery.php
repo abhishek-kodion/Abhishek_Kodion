@@ -1,9 +1,109 @@
+<?php 
+$newpassErr = $renewpasswordErr = "";
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
+
+    <style>
+        .form-form {
+            margin-top: 214px;
+        }
+        .form-image {
+            margin-top: 40px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+    <title>Password recovery</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <form action="" method="POST" class="form-form">
+                    <label class="">New password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="newpass" id="myInput1" minlength="8" value="" required maxlength="32">
+                        <div class="input-group-append">
+                            <button class="btn btn-warning" type="button" onclick="myFunction1()">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="error"><?php echo $newpassErr; ?></span>
+                    </div>
+                    <br>
+                    <label class="">Confirm New password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="renewpass" id="myInput2" value="" minlength="8" required maxlength="32">
+                        <div class="input-group-append">
+                            <button class="btn btn-warning" type="button" onclick="myFunction2()">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="error"><?php echo $renewpasswordErr; ?></span>
+                    </div>
+                    <br>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" name="update" class="btn btn-warning btn-lg gradient-custom-4">
+                            <a style="color:white;text-decoration:none;" class="modal-button">Submit</a>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6 form-image">
+                <img src="https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-4652.jpg?size=626&ext=jpg&ga=GA1.1.1841514627.1686724360&semt=ais" alt="Girl in a jacket" width="500" height="600">
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional: jQuery, Popper.js, Bootstrap JS (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        function myFunction1() {
+            var x = document.getElementById("myInput1");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+        function myFunction2() {
+            var x = document.getElementById("myInput2");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 <?php
 $conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers');
 $_link = $_GET['link'];
 
 $sql = "SELECT * FROM `password_reset_tokens` WHERE `token` = '$_link'";
 $run = mysqli_query($conn, $sql);
+
+$newpassErr = $renewpasswordErr = "";
 
 if (!$run) {
     echo "Query not working";
@@ -22,7 +122,7 @@ if (!$run) {
         $currentDateTime = date('Y-m-d H:i:s');
 
         $newpassword = $renewpassword = "";
-        $newpassErr = $renewpasswordErr = "";
+        // $newpassErr = $renewpasswordErr = "";
 
         // Function to sanitize and validate input data
         function sanitizeInput($data)
@@ -33,7 +133,7 @@ if (!$run) {
             return $data;
         }
 
-        if ($currentDateTime > $expire_time) {
+        if ($currentDateTime < $expire_time) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // new password
@@ -75,8 +175,17 @@ if (!$run) {
 
                     if ($affectedRows > 0) {
                         // echo "Password updated successfully";
-                        echo "<script>alert('Password recovered successfully')</script>";
-                        header('location:index.php');
+                        echo "<script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'User Data Successfully Updated!',
+                            showConfirmButton: false,
+                            timer: 2500
+                        }).then(() => {
+                            window.location.href = 'index.php';
+                        });
+                    </script>";
                     } else {
                         header('Location: error.php');
                         exit();
@@ -92,81 +201,5 @@ if (!$run) {
 
 mysqli_close($conn);
 ?>
-
-<!doctype html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"
-    />
-    <style>
-        .form-form {
-            margin-top: 214px;
-        }
-        
-        .form-image 
-        {
-            margin-top: 40px;
-        }   
-        .error
-        {
-            color:red;  
-        }
-    </style>
-    <title>Password recovery</title>
-</head>
-
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <form action="" method="POST" class="form-form"><label class="">New password</label>
-                    <div class="input-group"><input type="password" class="form-control" name="newpass" id="myInput1" minlength="8" value="" required maxlength="32">
-                        <div class="input-group-append"><button class="btn btn-warning" type="button" onclick="myFunction1()"><i class="fa fa-eye" aria-hidden="true"></i></button></div>
-                    </div>
-                    <div class="row">
-                        <span class="error"><?php echo $newpassErr;?></span>
-        </div><br><label class="">Confirm Newpassword</label>
-                    <div class="input-group"><input type="password" class="form-control" name="renewpass" id="myInput2" value="" minlength="8" required maxlength="32">
-                        <div class="input-group-append"><button class="btn btn-warning" type="button" onclick="myFunction2()"><i class="fa fa-eye" aria-hidden="true"></i></button></div>
-                    </div>
-                    <div class="row">
-                        <span class="error"><?php echo $renewpasswordErr;?></span>
-        </div><br>
-                    <div class="d-flex justify-content-center"><button type="submit" name="update" class="btn btn-warning  btn-lg gradient-custom-4 "><a style="color:white;text-decoration:none;" class="modal-button">Submit</a></button></div>
-                </form>
-            </div>
-            <div class="col-6 form-image"><img src="https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-4652.jpg?size=626&ext=jpg&ga=GA1.1.1841514627.1686724360&semt=ais" alt="Girl in a jacket" width="500" height="600"></div>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
-
 </html>
-<script>
-    function myFunction1() {
-        var x = document.getElementById("myInput1");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-    }
-
-    function myFunction2() {
-        var x = document.getElementById("myInput2");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-    }
-</script>

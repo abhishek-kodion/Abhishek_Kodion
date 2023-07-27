@@ -1,87 +1,133 @@
+<?php include 'includes/header.php' ?>
 
-<?php
-    $_link= $_GET['link'];
+<style>
+    .card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+</style>
+<div class="wrapper">
+    <?php include 'includes/sidebar.php'; ?>
 
-    $sql = "SELECT * FROM `password_reset` WHERE `token`='$_link'";
-    $data = mysqli_query($conn,$sql);
-    $details = mysqli_fetch_assoc($data);
-    $expire_time = $details['expiration_time'];
-    $_userid = $details['user_id'];
-    $email = $details['email'];
-    $currentDateTime = date('Y-m-d H:i:s');
-    $newpassword = $renewpassword = '';
-    $newpassErr = $renewpasswordErr = '';
+    <main id="main" class="main">
 
-    // Function to sanitize and validate input data
-    function sanitizeInput($data)
-    {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
+        <div class="container">
+<div class="row">
+                    <div class="col-4">
+                    <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://images.unsplash.com/photo-1603828917425-8b5969eeae46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dGF0dG98ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Tatto Blazers</h5>
+    <p class="card-text">Self-expression: Tattoos can be a way to express your individuality, passions, and beliefs. They can serve as a visual representation of who you are and what matters to you, allowing you to wear your values proudly.</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+                    </div>
+                <div class="col-4">
+                <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://images.unsplash.com/flagged/photo-1575495407752-bfb6fb0518bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dGF0dG98ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Tatto Blazers</h5>
+    <p class="card-text">Commemoration: Tattoos can be a meaningful way to commemorate a significant event, milestone, or a loved one. People often get tattoos to honor the memory of a special person, celebrate personal achievements, or mark important life experiences.</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+                </div>
+                <div class="col-4">
+                <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://images.unsplash.com/photo-1559758371-54b41c89bf55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8dGF0dG98ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Tatto Blazers</h5>
+    <p class="card-text">Artistic appreciation: Many people view tattoos as a form of wearable art. If you have a deep appreciation for visual aesthetics and want to carry a beautiful piece of art with you wherever you go, a tattoo might be appealing.</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+                </div>
+            </div>
 
-    if($currentDateTime<$expire_time)
-    {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            <div class="row">
+                    <div class="col-4">
+                    <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://images.unsplash.com/photo-1525135850648-b42365991054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHRhdHRvfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Tatto Blazers</h5>
+    <p class="card-text">Empowerment: For some, getting a tattoo can be an empowering experience. It can signify taking ownership of your body and making a deliberate decision about how you present yourself to the world.</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+                    </div>
+                <div class="col-4">
+                <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://media.istockphoto.com/id/909453146/photo/beauty-girl.webp?b=1&s=170667a&w=0&k=20&c=peETxSsLqfcCLVeXWH6raFy_GYB2GHWFHUvCg6Sj7Nw=" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Tatto Blazers</h5>
+    <p class="card-text">Cultural or spiritual significance: Some individuals choose to get tattoos as a way to connect with their cultural heritage or spiritual beliefs. Tattoos have historically played a role in various cultural rituals and traditions.</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+                </div>
+                <div class="col-4">
+                <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://media.istockphoto.com/id/183288557/photo/henna-mehndi.jpg?s=612x612&w=0&k=20&c=37FF22kVxK5YRilvWk922eTpfwa6rYmuLL9LLGXrhCA=" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Tatto Blazers</h5>
+    <p class="card-text">Bonding and solidarity: Tattoos can also be a way for people to bond with others, such as family members or friends, by getting matching or complementary tattoos that hold special meaning to them collectively.</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+                </div>
+            </div>
 
-        // new password
-        if (empty($_POST['newpass'])) {
-            $newpassErr = 'Please fill the password';
-        } else {
-            $newpassword = sanitizeInput($_POST['newpass']);
-            $uppercase = preg_match('@[A-Z]@', $newpassword);
-            $lowercase = preg_match('@[a-z]@', $newpassword);
-            $number = preg_match('@[0-9]@', $newpassword);
-            $specialChars = preg_match('@[^\w]@', $newpassword);
-            if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($newpassword) < 8) {
-                $newpassErr = 'Password should be at least 8 characters in length and should include at least one uppercase letter, one number, and one special character.';
-            }
-        }
 
-        // confirm new password
-        if (empty($_POST['renewpass'])) {
-            $renewpasswordErr = 'Please fill the password';
-        } else {
-            $renewpassword = sanitizeInput($_POST['renewpass']);
-            if ($newpassword !== $renewpassword) {
-                $renewpasswordErr = 'Password and confirm password do not match';
-            }
-        }
+            <div class="row">
+                    <div class="col-4">
+                    <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://i.pinimg.com/236x/51/1d/3b/511d3b43408229d952fa1f75e78c30c6.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Tatto Blazers</h5>
+    <p class="card-text">Overcoming challenges: Some people may get tattoos as a way to mark their resilience or overcoming personal struggles. The tattoo can serve as a reminder of their strength and ability to face adversity.</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+                    </div>
+                <div class="col-4">
+                <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://i.pinimg.com/236x/59/1d/53/591d534e385b4e49d07286ad3e3b9534.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Tatto Blazers</h5>
+    <p class="card-text">Personal growth and transformation: For some individuals, tattoos can symbolize personal growth and transformation. The process of getting inked might represent a significant change in their lives, and the tattoo serves as a reminder of their journey and progress.</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+                </div>
+                <div class="col-4">
+                <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="https://i.pinimg.com/236x/be/7a/60/be7a60d04d439b51809def1c202e16de.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Tatto Blazers</h5>
+    <p class="card-text">Fashion and aesthetics: Some people are drawn to tattoos simply because they find them visually appealing. They might appreciate the way tattoos enhance their overall appearance and become part of their personal style.</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+                </div>
+            </div>
+        </div>
+        </div>
 
-        // if ($oldpassword == $renewpassword) {
-        //     $renewpasswordErr = 'New password cannot be the same as old password';
-        // }
+    </main>
 
-        if (empty($newpassErr) && empty($renewpasswordErr)) {
-            $newpassword = md5($newpassword);
-            $update = "UPDATE `register`
-            JOIN `password_reset` ON `register`.id = `password_reset`.user_id
-            SET `register`.password = '$newpassword', `password_reset`.used = 1
-            WHERE `password_reset`.token = '$_link' AND `password_reset`.used = 0";
-            $result = mysqli_query($conn, $update); 
-            $affectedRows = mysqli_affected_rows($conn);
+    <?php include 'includes/footer.php'; ?>
+</div>
 
-            if ($affectedRows > 0) {
-                echo "<script>";
-                echo " Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Password changed successfully!',
-                    showConfirmButton: false,
-                    timer: 2500
-                  })";
-                  echo "</script>";
-            } else {
-                // echo "Password update failed. Link may be invalid or has already been used.";
-                header('location:error-500.html');
-            }
-        }
-    }
 
-    }
-    else
-    {
-        echo "Your link had been expired.";
-    }
+
+
+
+<?php 
+$conn = mysqli_connect('localhost','root','','tatto_blazers');
+
+$sql = "SELECT * FROM `blazers_data`";
+$res = mysqli_query($conn,$sql);
+
 ?>

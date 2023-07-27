@@ -198,8 +198,6 @@ else
 }
 // image else
       
-
-
 }
     }
   }
@@ -212,89 +210,61 @@ else
 ?>
 <div class="wrapper">
     <?php include 'includes/sidebar.php'; ?>
-
     <main id="main" class="main">
-
         <div class="container" >
-            <div class="row">
-  <div class="row">
-  <div class="container my shadow  text-white rounded" style="background: linear-gradient(to right, #800080 , #e6e6fa);">
-    <div class="row my-3">
-    <?php foreach($query_run as $data) { 
-        ?>
-      <div class="col-12 mt text-center ">
+
+  <div class="container text-white rounded">
+    <?php foreach($query_run as $data) { ?>
+
+<div class="row">
+      <div class="col-6 mt text-center ">
       <img src="images/<?php echo $data['user_image'];?>" class="rounded-circle mx-auto d-block" alt="" height="200px;" width="200px;">
-        </a>
-      </div>
-      
-      <div class=" container mt-3 text-center" >
+    </a>
+    <h3 class="text-center text-dark"><?php echo $data['name']; ?></h3>
         
-        <div class="col-12 text-center" >
-        <h3 class="text-center"><?php echo $data['name']; ?></h3>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-    <div class="col-12">
     <form action="" method="post" enctype="multipart/form-data">
-  <div class="form-row">
-    <div class="form-group col-md-6">
       <label for="inputEmail4">Name</label>
       <input type="text" class="form-control" name="name" id="" required value="<?php echo $data['name']; ?>">
       <span class="error"><?php echo $nameErr; ?></span>
-      
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Email</label>
+    
+      <label for="email">Email</label>
       <input type="text" class="form-control" name="email" id="" required value="<?php echo $data['email']; ?>"  pattern=".+@gmail\.com" size="30">
       <span class="error"><?php echo $emailErr; ?></span>
       <span class="error"><?php echo $emailErrex; ?></span>
-      
 
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group col-md-6">
       <label for="inputAddress">Address</label>
       <input type="text" class="form-control"  name="address" id="" required value=" <?php echo $data['address']; ?>">
       <span class="error"><?php echo $addressErr; ?></span>
-
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Phone</label>
+    
+      <label for="phone">Phone</label>
       <input type="text" class="form-control" name="phone_number" id=""  required maxlength="10" value="<?php echo $data['contact']; ?>">
       <span class="error"><?php echo $contactErr; ?></span>
-    </div>
+    
 
     <!-- <input type="file" id="fileUpload" name="image" style="display: none;"> -->
-    <label for="inputPassword4">User Image</label>
+   
+    <label for="user_image">User Image</label>
    <input type="file" class="form-control" name="image">
    <span class="error"><?php echo $imageErr; ?></span>
-
-
-  </div>
-
+  
   <button type="submit" class="btn btn-secondary my-3" name="update">Update Profile</button>
   <a href="change-password.php?id=<?php echo $data['id'];?>" class="btn btn-info text-white"  role="button">Change Password</a>
-  <?php } ?>
 </form>
-    </div>
-    </div>
+</div>
+<div class="col-6">
+      <img src="images/<?php echo $data['user_image'];?>" class="" alt="" height="661.59px;" width="482.5px;">
+  <?php } ?>
   </div>
-            </div>
-        </div>
+  </div>
     </main>
-    
     <?php include 'includes/footer.php'; ?>
 </div>
-
-
 
 <script>
         // Initialize TinyMCE
         tinymce.init({
             selector: '#myTextarea'
             // Add any additional configuration options as needed
+            
         });
     </script>

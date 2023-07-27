@@ -28,7 +28,7 @@
     <?php
     $conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers');
     // Define variables and set to empty values
-    $nameErr = $emailErr = $passwordErr = "";
+    $nameErr = $emailErr = $passwordErr = $optErr = "";
     $name = $email = $password = $address = $phone = $names = "";
     $conpassErr = "";
     $phoneErr = "";
@@ -102,6 +102,15 @@
             $address = sanitize_input($_POST["address"]);
         }
 
+        // validate register as option
+
+        // if (empty($_POST["option"])) {
+        //     $optErr = "option is required";
+        // } else {
+        // }
+        
+        $option = sanitize_input($_POST["option"]);
+
         // validate phone number
         if (empty($_POST["phone_number"])) {
             $phoneErr = "phone is required";
@@ -159,14 +168,14 @@
             else{
             
                 // If all validations pass, you can perform further actions like storing data in a database
-                if ($nameErr == "" && $emailErr == "" && $passwordErr == "" && $addErr == "" && $conpassErr == "" && $phoneErr == "" && $imageErr == "" && $conpassErr == "") {
+                if ($nameErr == "" && $emailErr == "" && $passwordErr == "" && $addErr == "" && $conpassErr == "" && $phoneErr == "" && $imageErr == "" && $conpassErr == "" && $optErr =="" ) {
 
                     // $names=$_FILES['image']['name'];
                     // $tempname=$_FILES['image']['tmp_name'];
                     // $folder="images/".$names;  
 
 
-                    $sql = "INSERT INTO `blazers_data`(`name`,`email`,`address`,`contact`,`user_image`,`password`) VALUES ('$name','$email','$address','$phone','$names','$hash')";
+                    $sql = "INSERT INTO `blazers_data`(`name`,`email`,`address`,`contact`,`user_image`,`password`,`role`) VALUES ('$name','$email','$address','$phone','$names','$hash','$option')";
                     $run = mysqli_query($conn, $sql);
                     if (!$run) {
                        
@@ -234,6 +243,18 @@
                         <span class="error"><?php echo $phoneErr; ?></span>
 
                     </div>
+<!-- 
+                    <div class="form-group">
+                <label for="dummy-select">Want to register as:</label>
+                <select class="form-control" id="dummy-select" name="option">
+                    <option value="" disabled selected>i am a...</option>
+                    <option value="Artist">Artist</option>
+                    <option value="User">User</option>
+                </select>
+            </div> -->
+
+                    <input type="hidden" name="option" id="" value="3">
+
                     <div class="form-group">
                         <label for="image">User Image</label>
                         <input type="file" class="form-control" id="image" required name="image">

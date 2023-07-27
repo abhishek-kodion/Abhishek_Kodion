@@ -75,7 +75,7 @@
     <!-- Section: Text -->
     <section class="mb-4">
       <p>
-        A tattoo studio that's not just about tattoos but more about the experience and the connection. We believe in elevating lives through art and creativity. We are a team of award winning tattoo artists and designers who would love to serve you with the best of custom tattoos designed based on your values and beliefs. Aliens tattoo is the brand people trust, we are recognised as one of the best tattoo studio in Mumbai / India.
+        A tattoo studio that's not just about tattoos but more about the experience and the connection. We believe in elevating lives through art and creativity. We are a team of award winning tattoo artists and designers who would love to serve you with the best of custom tattoos designed based on your values and beliefs.  Tatto BlaZeRs is the brand people trust, we are recognised as one of the best tattoo studio in Mumbai / India.
       </p>
     </section>
     <!-- Section: Text -->
@@ -86,6 +86,12 @@
 
 <script>
     $('#example').DataTable();
+
+    // to get id and delete the table data
+  function getDeleteElementId(id) {
+    document.getElementById('delete-btn').setAttribute('value', id);
+    // console.log(document.getElementById('delete-btn'));  
+  }
 </script>
 
     <!-- Copyright -->
@@ -125,3 +131,28 @@
 
 
 
+
+
+<!--Delete Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the user.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <form action="delete-user.php" method="post">
+          <input type="hidden" name="yes" id="delete-btn" value="">
+          <button type="submit" name="submit" class="btn btn-primary modal-button">Yes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

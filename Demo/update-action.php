@@ -1,13 +1,14 @@
 <?php
+// $conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers');
 
-$conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers');
+include 'config.php';
+
 session_start();
 if (!isset($_SESSION['id'])) {
     header('location:login.php');
 } else {
     $user =  $_SESSION['username'];
     $id = $_SESSION['id'];
-    //   echo $id;
 }
 
 

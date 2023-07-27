@@ -56,6 +56,10 @@ if (!$run_query) {
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onclick="getDeleteElementId(<?php echo $dataAll['id']; ?>)">
                     Delete
                     </button>
+                    <!-- <a href="modules.php"> <button class="btn btn-info text-white">Genrate Role</button> </a> -->  
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    Genrate Role
+                    </button>
                     </td>
                 </tr>
                 <?php } ?>
@@ -64,7 +68,6 @@ if (!$run_query) {
             </div>
         </div>
     </main>
-    
     <?php include 'includes/footer.php'; ?>
 </div>
 
@@ -92,9 +95,31 @@ if (!$run_query) {
   </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Choose Role to Assign</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-primary" id="submitButton1">Submit 1</button> -->
+          <a href=""><button type="button" class="btn btn-primary" data-toggle="modal" data-target="">Artist</button></a></a>
+          <a href="create-manager.php"><button type="button" class="btn btn-warning text-white" data-toggle="modal" data-target="">Manager</button></a></a>
+          <!-- <a href=""><button type="button" class="btn btn-info" data-toggle="modal" data-target="">Artist</button></a></a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script>
   function getDeleteElementId(id) {
     document.getElementById('delete-btn').setAttribute('value', id);
     // console.log(document.getElementById('delete-btn'));  
   }
 </script>
+
+
+

@@ -1,15 +1,7 @@
 <?php
 include 'includes/header.php';
+include 'sql-queries.php';
 
-if (!isset($_SESSION['id'])) {
-    header('location:login.php');
-} else {
-    $user = $_SESSION['username'];
-    $id = $_SESSION['id'];
-}
-
-$sql = "SELECT * FROM `blazers_data` WHERE `id` = '$id'";
-$query = mysqli_query($conn, $sql);
 
 // validations
 $nameErr = $addressErr = $contactErr = $emailErr = $imageErr = $emailErrex = "";
@@ -67,7 +59,7 @@ if (isset($_POST["update"])) {
     }
 
     if (empty($nameErr) && empty($addressErr) && empty($contactErr) && empty($emailErr) && empty($imageErr)) {
-        $check_email = "SELECT * FROM `blazers_data` WHERE `email`='$email' AND `id` != '$id'";
+        $check_email = "SELECT* FROM `blazers_data` WHERE `email`='$email' AND `id` != $_SESSION[id]";
         $result = mysqli_query($conn, $check_email);
         if (mysqli_num_rows($result) > 0) {
             $emailErrex = "Email already exists";
@@ -79,7 +71,7 @@ if (isset($_POST["update"])) {
                 $folder = "images/" . $filename;
                 move_uploaded_file($tempname, $folder);
 
-                $update_data = "UPDATE `blazers_data` SET `name`='$name',`email`='$email',`address`='$address',`contact`='$phone_number',`user_image`='$filename' WHERE `id`='$id'";
+                $update_data = "UPDATE `blazers_data` SET `name`='$name',`email`='$email',`address`='$address',`contact`='$phone_number',`user_image`='$filename' WHERE `id`='$_SESSION[id]'";
                 $run = mysqli_query($conn, $update_data);
                 if (!$run) {
                     echo "<script> alert('Profile image update failed')</script>";
@@ -97,7 +89,7 @@ if (isset($_POST["update"])) {
                     echo "</script>";
                 }
             } else {
-                $update_data1 = "UPDATE `blazers_data` SET `name`='$name',`email`='$email',`address`='$address',`contact`='$phone_number' WHERE `id`='$id'";
+                $update_data1 = "UPDATE `blazers_data` SET `name`='$name',`email`='$email',`address`='$address',`contact`='$phone_number' WHERE `id`='$_SESSION[id]'";
                 $run = mysqli_query($conn, $update_data1);
                 if (!$run) {
                     echo "<script> alert('Profile update failed')</script>";
@@ -168,7 +160,7 @@ if (isset($_POST["update"])) {
                         </div>
 
                         <div class="col-6">
-                            <a href="update-password.php" class="btn btn-info btn-block text-white">Update your Password</a>
+                            <a href="update-password.php" class="btn btn-info btn-block text-white">Change your Password</a>
 
                         </div>
                     </div>

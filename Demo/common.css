@@ -1,0 +1,92 @@
+/* index page css */
+
+/* for the navbar */
+   .rounded-button {
+    border-radius: 25px;
+  }
+      .navbar .nav-item {
+        margin: 0 10px;
+      }
+
+      /* for the carosel */
+  .carousel-item img {
+    object-fit: cover;
+    height: 400px; /* Adjust the height as needed */
+    width: 100%;
+  }
+  .carousel-caption {
+    background-color: rgba(0, 0, 0, 0.7); /* Adjust the background color and opacity for the caption */
+    padding: 10px;
+  }
+  .footer-content {
+    background-color: #f8f9fa; /* Change this to your desired background color */
+    padding: 20px;
+    text-align: center;
+  }
+
+  .cursive {
+    font-family: cursive;
+  }
+
+  .myImg
+  {
+      height:613px;
+       width:442px;
+       margin-left: 124px;
+  }
+
+  .card {
+    overflow: hidden;
+  }
+  .card img {
+    transition: transform 0.3s ease;
+    object-fit: cover;
+    height: 400px; /* Set the desired height for the images */
+  }
+  .card:hover img {
+    transform: scale(1.1);
+  }
+  .card-caption {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .card:hover .card-caption {
+    opacity: 1;
+  }
+
+
+  /* login page */
+  .acc {
+    padding-left: 168px;
+}
+
+.error {
+    color: red;
+}
+
+/* header css */
+.dropdown-menu.show {
+display: block;
+background: #6C757D;
+border: none;
+}
+.dropdown-item {
+display: block;
+width: 100%;
+padding: 0.25rem 1.5rem;
+clear: both;
+font-weight: 400;
+color: #ffffff;
+text-align: inherit;
+white-space: nowrap;
+background-color: transparent;
+border: 0;
+}
+  

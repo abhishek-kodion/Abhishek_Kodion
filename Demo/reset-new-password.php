@@ -76,7 +76,7 @@ if (!$run) {
                     if ($affectedRows > 0) {
                         // echo "Password updated successfully";
                         echo "<script>alert('Password recovered successfully')</script>";
-                        header('location:index.php');
+                        header('location:login.php');
                     } else {
                         header('Location: error.php');
                         exit();

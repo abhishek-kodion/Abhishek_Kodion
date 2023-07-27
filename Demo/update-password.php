@@ -44,7 +44,7 @@
   $matchingErr = "";
   $newpasswordErr = "";
   $cnewpasswordErr = "";
-  $currpasswordErr = "";
+  // $currpasswordErr = "";
 
 
   function sanitize_input($data)
@@ -59,7 +59,7 @@
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve the form data
-    $currentPassword = $_POST["current_password"];
+    // $currentPassword = $_POST["current_password"];
     $newPassword = $_POST["new_password"];
     $confirmPassword = $_POST["confirm_password"];
 
@@ -68,10 +68,10 @@
       $currpasswordErr = "Password is required";
     }
     // Check if the current password is correct (you may need to retrieve the user's hashed password from the database)
-    if (!password_verify($currentPassword, $dbpassword)) {
-      $matchingErr = "old password did not matched";
-      // exit;
-    }
+    // if (!password_verify($currentPassword, $dbpassword)) {
+    //   $matchingErr = "old password did not matched";
+    //   // exit;
+    // }
 
     // new password
     // if ($newPassword !== $confirmPassword) {
@@ -140,18 +140,18 @@
         <form action="" method="POST">
           <div class="form-group">
             <!-- old password -->
-            <label for="exampleInputEmail1">Old Password</label>
+            <!-- <label for="exampleInputEmail1">Old Password</label>
             <div class="input-group">
               <input type="password" class="form-control" id="myInput" required name="current_password" aria-label="Example select with button addon" placeholder="old password here" maxlength="32" minlength="8">
               <div class="input-group-append">
                 <button class="btn btn-secondary" type="button" onclick="myFunction()"><i class="fa fa-eye" aria-hidden="true"></i></button>
               </div>
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
               <span class="error"><?php echo $matchingErr; ?></span>
 
               <span class="error"><?php echo $currpasswordErr; ?></span>
-            </div>
+            </div> -->
 
             <!-- new password -->
             <label for="exampleInputEmail1">New Password</label>

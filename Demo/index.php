@@ -1,345 +1,266 @@
-<?php
-// error_reporting(0);
-?>
+
 <!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
-
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-    <title>Register-Tatto BlazeRs</title>
-    <style>
-        .error {
-            color: red;
-        }
-    </style>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- bootstrap css -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <!-- icon cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- link for  common.css -->
+  <link rel="stylesheet" href="common.css">
+  <title>Homepage</title>
 </head>
 
 <body>
+  <header>
+    <nav class="navbar navbar-expand-lg  bg-dark ">
+      <div class="container">
+        <!-- Navbar brand or logo (optional) -->
+        <a class="navbar-brand text-white " href="#">Tatto BlaZeRs</a>
 
-    <?php
-    $conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers');
-    // Define variables and set to empty values
-    $nameErr = $emailErr = $passwordErr = "";
-    $name = $email = $password = $address = $phone = $names = "";
-    $conpassErr = "";
-    $phoneErr = "";
-    $addErr = "";
-    $imageErr = "";
-    $emailErrex = "";
+        <!-- Toggler/collapsible button for mobile -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-
-    // Function to sanitize and validate input data
-    function sanitize_input($data)
-    {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
-
-    // Process form data on submission
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Validate name
-        if (empty($_POST["name"])) {
-            $nameErr = "Name is required";
-        } else {
-            $name = sanitize_input($_POST["name"]);
-            // Check if name only contains letters and whitespace
-            if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-                $nameErr = "Only letters and white space allowed";
-            }
-        }
-
-        // Validate email
-        if (empty($_POST["email"])) {
-            $emailErr = "Email is required";
-        } else {
-            $email = sanitize_input($_POST["email"]);
-            // Check if email is valid
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $emailErr = "Invalid email format";
-            }
-        }
-
-
-        // Validate password
-        if (empty($_POST["password"])) {
-            $passwordErr = "Password is required";
-        } else {
-            $password = (sanitize_input($_POST["password"]));
-            // Check if password is strong (at least 8 characters, contains a lowercase letter, an uppercase letter, and a number)
-            if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/", $password)) {
-                $passwordErr = "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, and one number";
-            }
-        }
-
-        // validate conform password
-        if (empty($_POST['cpassword'])) {
-            $passwordErr = "password is required";
-        } else {
-            if ($_POST['password'] == $_POST['cpassword']) {
-                $hash = password_hash($password, PASSWORD_DEFAULT);
-            } else {
-                $conpassErr = "password did not matched";
-            }
-        }
-
-
-
-        // validate address
-        if (empty($_POST["address"])) {
-            $addErr = "address is required";
-        } else {
-            $address = sanitize_input($_POST["address"]);
-        }
-
-        // validate phone number
-        if (empty($_POST["phone_number"])) {
-            $phoneErr = "phone is required";
-        } else {
-            $phone = sanitize_input($_POST["phone_number"]);
-            // Check if contact is valid
-            if (preg_match('/^[0-9]{10}+$/', $phone)) {
-                // echo "Valid Phone Number";
-            } else {
-                $phoneErr = "Invalid Phone Number";
-            }
-        }
-
-
-        // validate image
-        if (empty($_FILES['image']['tmp_name'])) {
-            $imageErr = "Image is required";
-        } else {
-            $names = $_FILES['image']['name'];
-            $tempname = $_FILES['image']['tmp_name'];
-            $folder = "images/" . $names;
-
-            // Check if the file was successfully uploaded
-            if (move_uploaded_file($tempname, $folder)) {
-                // File uploaded successfully
-                // echo "Image uploaded successfully!";
-            } else {
-                // Error in uploading the file
-                // echo "Failed to upload the image.";
-            }
-        }
-
-        // $showModal = false;
-        // validate email
-        if ($_POST['email']) {
-            $email_sql = "SELECT * FROM `blazers_data` WHERE `email`='$email'";
-            $run = mysqli_query($conn, $email_sql);
-            $count = mysqli_num_rows($run);
-
-            if ($count > 0) {
-                $row = mysqli_fetch_assoc($run);
-                $status = $row['status'];
-
-                if ($status == 1) {
-                    // echo "I want to get redirected";
-                    echo '<script>
-                    window.addEventListener("DOMContentLoaded", function() {
-                        $("#myModal").modal("show");
-                    });
-                </script>';
-
-                } else {
-                    $emailErrex = "Email already exists";
-                }
-            }        
-            else{
-            
-                // If all validations pass, you can perform further actions like storing data in a database
-                if ($nameErr == "" && $emailErr == "" && $passwordErr == "" && $addErr == "" && $conpassErr == "" && $phoneErr == "" && $imageErr == "" && $conpassErr == "") {
-
-                    // $names=$_FILES['image']['name'];
-                    // $tempname=$_FILES['image']['tmp_name'];
-                    // $folder="images/".$names;  
-
-
-                    $sql = "INSERT INTO `blazers_data`(`name`,`email`,`address`,`contact`,`user_image`,`password`) VALUES ('$name','$email','$address','$phone','$names','$hash')";
-                    $run = mysqli_query($conn, $sql);
-                    if (!$run) {
-                       
-                        echo "<script>";
-                        echo " Swal.fire({
-                            icon: 'error',
-                            title: 'failed',
-                            text: 'Registraion failed',
-                            showConfirmButton: false,
-                            timer: 2500
-                            }).then(() => {
-                            window.location.href = 'index.php';
-                            })";
-                        echo "</script>";
-                    } else {
-                     
-                        include 'sendEmail.php';
-                        echo "<script>";
-                        echo " Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Registraion Successfull!',
-                            showConfirmButton: false,
-                            timer: 2500
-                            }).then(() => {
-                            window.location.href = 'login.php';
-                            })";
-                        echo "</script>";
-                    }
-                }
-            }
-        }
-    }
-    ?>
-
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-6">
-                <img src="https://images.unsplash.com/photo-1655069482983-d87066eefd01?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGF0dG9vfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-            </div>
-            <div class="col-6" id="form">
-                <h1 class="text-center">Welcome to Tatto BlazeRs</h1>
-                <form action="" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required value="<?php echo $name ?>">
-                        <span class="error"><?php echo $nameErr; ?></span>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required value="<?php echo $email ?>" pattern=".+@gmail\.com" size="30">
-                        <span class="error"><?php echo $emailErrex; ?></span>
-                        <span class="error"><?php echo $emailErr; ?></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="Address">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" required value="<?php echo $address ?>">
-                        <span class="error"><?php echo $addErr; ?></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone_number">Phone Number</label>
-                        <input type="text" class="form-control" id="phone_number" name="phone_number" required maxlength="10" minlength="10" value="<?php echo $phone ?>">
-                        <span class="error"><?php echo $phoneErr; ?></span>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="image">User Image</label>
-                        <input type="file" class="form-control" id="image" required name="image">
-                        <span class="error"><?php echo $imageErr; ?></span>
-                    </div>
-
-        
-                    <label for="exampleInputEmail1">Password</label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" name="password" id="myInput1" required maxlength="32" minlength="8">
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button" onclick="myFunction1()"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <span class="error"><?php echo $passwordErr; ?></span>
-                    </div>
-
-
-
-                    <label for="exampleInputEmail1">Confirm Password</label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" name="cpassword" id="myInput2" required maxlength="32" minlength="8">
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button" onclick="myFunction2()"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <span class="error"><?php echo $conpassErr; ?></span>
-                    </div>
-
-
-
-                    <button type="submit" class="btn btn-dark btn-lg btn-block mt-3" name="register">Register</button>
-                    <p class="text-center my-3">Already Registered <a href="login.php">Login Here</a></p>
-                </form>
-            </div>
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item ">
+              <a class="nav-link text-white" href="#">Home</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link text-white" href="#">About Us</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link text-white" href="#">Contact Us</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link text-white" href="#">Explore More</a>
+            </li>
+          </ul>
         </div>
-    </div>
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-    -->
-    <div class="container">
-        <footer class="bg-light text-center text-lg-start">
-            <!-- Copyright -->
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                © 2023 Copyright:
-                <a class="text-dark" href="">Tatto BlazeRs.com</a>
-            </div>
-            <!-- Copyright -->
-        </footer>
-    </div>
-
-<!-- Bootstrap Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>We have already your account do you want to reactive?    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    <a href="account-reactive.php"><button type="button" class="btn btn-primary">Yes</button></a>
-                </div>
-            </div>
+        <div class="ml-auto">
+          <a href="login.php"> <button class="btn btn-primary rounded-button mr-2">Login</button></a>
+          <a href="reg-reg.php"> <button class="btn btn-secondary rounded-button">Register</button> </a>
         </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container-fluid mt-3">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+
+      <!-- Slides -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="image/two.png" alt="Slide 1">
+        </div>
+
+        <div class="carousel-item">
+          <img src="image/one.png" alt="Slide 2">
+        </div>
+
+        <div class="carousel-item">
+          <img src="image/three.png" alt="Slide 3">
+        </div>
+      </div>
     </div>
+  </div>
+  <!-- end of carousel -->
+
+  <div class="container-fluid my-5">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block-button">
+          <button class="btn btn-warning text-white btn-block cursive">"Live fearlessly, chase your dreams" - A reminder to live boldly and pursue one's aspirations without hesitation"</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="image/1.png" alt="Image 1">
+          <div class="card-caption">
+            <p>Color Ink Tatto</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="image/2.png" alt="Image 2">
+          <div class="card-caption">
+            <p>Shading and Sketching</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="image/4.png" alt="Image 3">
+          <div class="card-caption">
+            <p>Water color Ink </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="image/3.png" alt="Image 1">
+          <div class="card-caption">
+            <p>symbolic </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="image/5.png" alt="Image 2">
+          <div class="card-caption">
+            <p>Mandala</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="image/6.png" alt="Image 3">
+          <div class="card-caption">
+            <p>Geometric</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="image/7.png" alt="Image 1">
+          <div class="card-caption">
+            <p>Personalize themes </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="image/8.png" alt="Image 2">
+          <div class="card-caption">
+            <p>Small tatto Designs</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img class="card-img-top" src="image/9.png" alt="Image 3">
+          <div class="card-caption">
+            <p>Long tatto life</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid my-5">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block-button">
+          <button class="btn btn-info text-white btn-block cursive">"Not all who wander are lost" so Celebrate your journey everyday and get a premanent memory</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-6">
+        <img src="image/yellow.png" alt="">
+      </div>
+      <div class="col-6">
+        <u>
+          <h3>OutFits and Tatto</h3>
+        </u>
+        <br>
+        <p>
+          Outfits and tattoos are two distinct forms of self-expression that intertwine to create a unique and personal style statement.
+
+          Outfits, as mentioned earlier, are a canvas for expressing individuality through clothing choices. They reflect our mood, personality, and cultural influences. From sophisticated and elegant ensembles to relaxed and casual looks, outfits have the power to transform how we feel and how we present ourselves to the world.
+
+          Tattoos, on the other hand, are permanent artworks etched onto our skin, making them an even more intimate and profound form of self-expression. Tattoos hold personal significance, symbolizing beliefs, memories, and important life events. They can be intricate, minimalistic, colorful, or monochromatic, depending on the wearer's preference.
+
+          When outfits and tattoos come together, they create a captivating synergy, revealing a more profound layer of a person's story. Tattoos become an extension of the outfit, adding an extra dimension of artistic expression to the overall look. They can accentuate certain elements of the outfit or serve as a focal point that draws attention and sparks conversation.
+
+          The combination of outfits and tattoos allows us to curate a visual narrative that is uniquely our own. Each outfit becomes a backdrop that complements and enhances the tattoos, while the tattoos, in turn, infuse the outfit with a deeper sense of meaning and identity.
+
+          In recent years, the fashion industry has embraced the art of tattoos, incorporating tattoo-inspired designs into clothing and accessories. This crossover has blurred the lines between fashion and body art, further empowering individuals to embrace their tattoos as an integral part of their style.
+
+          In conclusion, outfits and tattoos are powerful forms of self-expression that work harmoniously to create a visually captivating and meaningful narrative. They celebrate individuality, stories, and the beauty of the human canvas. Together, they tell a tale of creativity, passion, and the vibrant tapestry of life.
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid my-5">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block-button">
+          <button class="btn btn-warning text-white btn-block cursive">"Stars can't shine without darkness" - A metaphorical representation of how challenges can lead to personal growth and success"</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid my-5">
+    <div class="row">
+      <div class="col-6">
+        <u>
+          <h3>Carrer And Tatto</h3>
+        </u>
+        <p>
+          Careers and tattoos have had an evolving relationship over the years, with perceptions and acceptance varying across different industries and cultures.
+
+          In the past, tattoos were often associated with rebellion and non-conformity, which led to stigmas in professional settings. Many employers viewed visible tattoos as unprofessional and potentially detrimental to their brand image. As a result, individuals with tattoos often faced challenges in securing certain jobs or advancing in their careers.
+
+          However, attitudes towards tattoos have significantly shifted in recent times. With the rise of a more progressive and inclusive society, tattoos are increasingly seen as a form of self-expression rather than a sign of rebellion. As a result, the workplace landscape has become more accepting of visible tattoos.
+
+          In many creative industries, such as art, music, and design, tattoos are often celebrated and even embraced as a symbol of creativity and individuality. Moreover, companies that prioritize a diverse and inclusive work environment are more likely to accommodate employees with visible tattoos.
+
+          On the other hand, some conservative industries, like finance or law, may still maintain stricter dress codes and be less accepting of visible tattoos. In such fields, individuals with tattoos may need to consider covering them during work hours, depending on company policies and the culture of the workplace.
+
+          It's essential to remember that careers and tattoos are not mutually exclusive. Many successful professionals have tattoos, and they thrive in their respective fields while proudly expressing their unique identities through body art.
+        </p>
+      </div>
+
+      <div class="col-6">
+        <img src="image/career and tatoo.png" alt="" class="myImg">
+      </div>
+
+    </div>
+  </div>
+
+  <?php
+  include 'includes/footer.php';
+  ?>
 
 </body>
+
 </html>
-
-<script>
-    function myFunction1() {
-        var x = document.getElementById("myInput1");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-    }
-</script>
-
-<script>
-    function myFunction2() {
-        var x = document.getElementById("myInput2");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-    }
-</script>
