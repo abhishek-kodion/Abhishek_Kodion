@@ -15,10 +15,9 @@
             color: red;
         }
     </style>
-    <title>Login</title>
+    <title>Admin Login</title>
 </head>
 <body>
-
     <?php
     $conn = mysqli_connect('localhost', 'root', '', 'tatto_blazers'); //connection to the database
     $passwordErr = "";
@@ -88,10 +87,10 @@
                         <span class="error"><?php echo $passwordErr; ?></span>
                     </div>
 
-                    <button type="submit" class="btn btn-primary  btn-lg btn-block mt-3" name="submit">Login</button>
+                    <button type="submit" class="btn btn-danger  btn-lg btn-block mt-3" name="submit">Login</button>
                 </form>
                 <div class="row my-3">
-                    <h6 class="acc">Don't have an account? <a href="register-form.php">Register Here</a></h6>
+                    <!-- <h6 class="acc">Don't have an account? <a href="register-form.php">Register Here</a></h6> -->
                     <h6 class="acc"> Forgot Password <a href="password-recovery-mail.php">Click here to recover</a></h6>
                     <!-- <h6 class="acc"> Forgot Password <a href="gen-token.php">Click here to recover</a></h6> -->
                 </div>

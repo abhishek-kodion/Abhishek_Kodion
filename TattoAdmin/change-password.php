@@ -116,7 +116,7 @@
   <div class="container">
     <div class="row my-3">
       <div class="col-6" style="margin-top: 200px;">
-        <h3 class="text-center">Change Your Password</h3>
+       <b> <h3 class="text-center">Change Your Password</h3> </b>
 
         <form action="" method="POST">
           <div class="form-group">

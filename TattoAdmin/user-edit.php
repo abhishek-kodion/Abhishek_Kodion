@@ -290,7 +290,7 @@ else
 
 
   <button type="submit" class="btn btn-primary my-3" name="update">Update User</button>
-  <a href="user-password-update.php?id=<?php echo $data['id'];?>" class="btn btn-info text-white"  role="button">Change Password</a>
+  <a href="change-password.php?id=<?php echo $data['id'];?>" class="btn btn-info text-white"  role="button">Change Password</a>
   <?php } ?>
 </form>
     </div>

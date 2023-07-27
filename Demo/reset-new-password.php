@@ -33,7 +33,7 @@ if (!$run) {
             return $data;
         }
 
-        if ($currentDateTime > $expire_time) {
+        if ($currentDateTime < $expire_time) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // new password

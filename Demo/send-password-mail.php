@@ -16,7 +16,7 @@ else
        $pswtoken = $fetch['token'];
 }
 
-$resetLink = 'localhost/abhishek_kodion/TattoAdmin/recovery.php?link='.urlencode($pswtoken);
+$resetLink = 'localhost/abhishek_kodion/demo/reset-new-password.php?link='.urlencode($pswtoken);
 // echo $resetLink ;
 
 //Import PHPMailer classes into the global namespace
@@ -65,9 +65,13 @@ try {
 
 
 $mail->send();
+
 // Redirect to password-recovery-mail.php with success parameter
-header("Location: password-recovery-mail.php?success=true");
+header("Location: forgot-password.php?success=true");
 exit();
+
+
+
     
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";

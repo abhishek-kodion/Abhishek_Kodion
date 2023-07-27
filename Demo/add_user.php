@@ -172,6 +172,7 @@
                         echo "</script>";
                     } else {
                   
+                        include 'sendEmail.php';
                         echo "<script>";
                         echo " Swal.fire({
                             icon: 'success',

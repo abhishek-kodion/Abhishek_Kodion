@@ -104,6 +104,7 @@
                 </form>
                 <div class="row my-3">
                     <h6 class="acc">Don't have an account? <a href="index.php">Register Here</a></h6>
+                    <h6 class="acc">Forgot Password <a href="forgot-password.php">click Here</a></h6>
                 </div>
             </div>
         </div>

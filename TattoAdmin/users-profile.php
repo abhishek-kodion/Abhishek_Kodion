@@ -218,7 +218,7 @@ else
         <div class="container" >
             <div class="row">
   <div class="row">
-  <div class="container my shadow  text-white rounded" style="background: linear-gradient(to right, #4B8BF5, #57C7FF);">
+  <div class="container my shadow  text-white rounded" style="background: linear-gradient(to right, #800080 , #e6e6fa);">
     <div class="row my-3">
     <?php foreach($query_run as $data) { 
         ?>
@@ -268,7 +268,7 @@ else
     </div>
 
     <!-- <input type="file" id="fileUpload" name="image" style="display: none;"> -->
-
+    <label for="inputPassword4">User Image</label>
    <input type="file" class="form-control" name="image">
    <span class="error"><?php echo $imageErr; ?></span>
 
