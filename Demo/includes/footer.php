@@ -1,15 +1,8 @@
-<!-- Optional JavaScript; choose one of the two! -->
-<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 
-<!-- Option 2: Separate Popper and Bootstrap JS -->
-<!--
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-    -->
-<!-- Footer -->
+<script src="../bootstrap/js/jquery.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../common-script.js"></script>
+
 <footer class="bg-dark text-center text-white">
   <!-- Grid container -->
   <div class="container p-4">
@@ -75,29 +68,31 @@
     <!-- Section: Text -->
     <section class="mb-4">
       <p>
-        A tattoo studio that's not just about tattoos but more about the experience and the connection. We believe in elevating lives through art and creativity. We are a team of award winning tattoo artists and designers who would love to serve you with the best of custom tattoos designed based on your values and beliefs.  Tatto BlaZeRs is the brand people trust, we are recognised as one of the best tattoo studio in Mumbai / India.
+        A tattoo studio that's not just about tattoos but more about the experience and the connection. We believe in elevating lives through art and creativity. We are a team of award winning tattoo artists and designers who would love to serve you with the best of custom tattoos designed based on your values and beliefs. Tatto BlaZeRs is the brand people trust, we are recognised as one of the best tattoo studio in Mumbai / India.
       </p>
     </section>
     <!-- Section: Text -->
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <!--for the bootstrap table -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 
-<script>
-    $('#example').DataTable();
+    <script>
+      $('#example').DataTable();
 
-    // to get id and delete the table data
-  function getDeleteElementId(id) {
-    document.getElementById('delete-btn').setAttribute('value', id);
-    // console.log(document.getElementById('delete-btn'));  
-  }
-</script>
+      // to get id and delete the table data
+      function getDeleteElementId(id) {
+        document.getElementById('delete-btn').setAttribute('value', id);
+        // console.log(document.getElementById('delete-btn'));  
+      }
+    </script>
 
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
       © 2023 Copyright:
-      <a class="text-white" href="https://mdbootstrap.com/">Tatto BlazeRs</a>
+      <a class="text-white" href="#">Tatto BlazeRs</a>
     </div>
     <!-- Copyright -->
     <!-- Modal -->
@@ -107,6 +102,9 @@
 
 </html>
 
+
+
+<!-- #have to work on modal   -->
 
 <!-- logout modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -128,9 +126,6 @@
     </div>
   </div>
 </div>
-
-
-
 
 
 <!--Delete Modal -->

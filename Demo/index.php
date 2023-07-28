@@ -1,3 +1,6 @@
+<?php 
+include 'links.php';
+?>
 
 <!doctype html>
 <html lang="en">
@@ -9,7 +12,7 @@
   <!-- bootstrap css -->
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- icon cdn -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
   <!-- link for  common.css -->
   <link rel="stylesheet" href="common.css">
   <title>Homepage</title>

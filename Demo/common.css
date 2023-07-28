@@ -90,3 +90,25 @@ background-color: transparent;
 border: 0;
 }
   
+
+
+/* forgot password form */
+.center-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* password recovery*/
+.form-form {
+  margin-top: 214px;
+}
+
+.form-image 
+{
+  margin-top: 40px;
+}   
+.error
+{
+  color:red;  
+}

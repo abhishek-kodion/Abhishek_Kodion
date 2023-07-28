@@ -1,6 +1,5 @@
 <?php 
-  $passwordErr = "";
-  $emailErr = "";
+include 'links.php';
 ?>
 <!-- have to apply ajax here  -->
 <!doctype html>
@@ -10,9 +9,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- sweet alert cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
     <!-- common style sheet -->
     <link rel="stylesheet" href="common.css">
     <title>Login</title>
@@ -22,7 +18,7 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-6">
-                <img src="https://images.unsplash.com/photo-1569858253870-5402388b8197?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGF0dG98ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="">
+                <img src="image/onlogin.png" alt="">
             </div>
             <div class="col-6">
                 <h2 class="text-center" style="margin-top:265px; font-family:cursive">Login Tatto BlazeRs</h2>
@@ -30,18 +26,18 @@
                     <div class="form-group">
                         <label for="email">Email address</label>
                         <input type="email" class="form-control" id="email" name="email" required value="">
-                        <span class="error"><?php echo $emailErr; ?></span>
+                      
                     </div>
         
                     <label for="exampleInputEmail1">Password</label>
                     <div class="input-group">
-                        <input type="password" class="form-control" name="password" id="myInput" required maxlength="32" minlength="8">
+                        <input type="password" class="form-control" name="password" id="myInput1" required maxlength="32" minlength="8">
                         <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button" onclick="myFunction()"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                            <button class="btn btn-secondary" type="button" onclick="togglePasswordVisibility('myInput1')"><i class="fa fa-eye" aria-hidden="true"></i></button>
                         </div>
                     </div>
                     <div class="row">
-                        <span class="error"><?php echo $passwordErr; ?></span>
+            
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-lg btn-block mt-3" name="login">Login</button>
@@ -54,30 +50,12 @@
         </div>
     </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-    -->
-
-    <!-- function for show and hide the password -->
-    <script>
-        function myFunction() {
-            var x = document.getElementById("myInput");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
-    </script>
+<script src="bootstrap/js/jquery.js"></script>
+<script src="bootstrap/css/bootstrap.min.css"></script>
+<script src="common-script.js"></script>
 </body>
 </html>
 
 
+
+   
